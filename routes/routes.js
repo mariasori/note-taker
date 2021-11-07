@@ -1,46 +1,44 @@
-//const fs = require('fs');
-//const path = require('path');
-//const notes = require('../db/db.json')
-//
-//module.exports = app => {    
-//    
-//    currentID = notes.length;
-//
-//    app.get('/', function(req, res) {
-//        res.sendFile(path.join(__dirname, './public/index.html'));
-//    });
-//
-//    app.get('/notes', function(req, res) {
-//        res.sendFile(path.join(__dirname, './public/notes.html'));
-//    })
-//
-//    app.post('/api/notes', function(req, res) {
-//        var newNote = req.body;
-//        console.log(newNote);
-//        
-//        fs.appendFile(__dirname + '/db/db.json', JSON.stringify(newNote), function(err, data) {
-//            if (err) {
-//                return err
-//            }
-//        })
-//        res.json(newNote);
-//    })
-//
-//    app.get('/api/notes', function(req, res) {
-//        fs.readFile(__dirname + '/db/db.json', 'utf8', function(err, data) {
-//            if (err) {
-//                return console.log(err)
-//            }
-//
-//            console.log(data)
-//        })
-//        res.json(newNote)
-//    });
-//
-//    app.delete('/api/notes/:id', function(req, res) {
-//
-//        var deletedNote = req.params.id
-//        
-//        console.log(deletedNote)
-//    })
-//}
+const fs = require('fs');
+const path = require('path');
+const notes = require('../db/db.json')
+
+module.exports = app => {    
+    
+    currentID = notes.length;
+
+    //API routes
+    app.get('/api/notes', function (req, res) {
+        return res.json(notes);
+    })
+    
+    app.post('/api/notes', function (req, res) {
+        var newNote = req.body;
+        notes.push(newNote);
+        updateNotes();
+        return console.log('Added new note: ' + newNote.title)
+    });
+    
+    app.delete('/api/notes/:id', function (req, res) {
+        notes.splice(req.params.id, 1);
+        updateNotes();
+        return console.log('Deleted note with id ' + req.params.id);
+    });
+    
+    function updateNotes() {
+        fs.writeFile('db/db.json', JSON.stringify(notes), function(err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log('Notes updated!')
+        });
+    }
+    
+    //HTML routes
+    app.get('/notes', function (req, res) {
+        res.sendFile(path.join(__dirname, '../public/notes.html'));
+    });
+    
+    app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, '../public/index.html'));
+    });
+}
