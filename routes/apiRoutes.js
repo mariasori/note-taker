@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const fs = require('fs');
-const path = require('path');
 const notes = require('../db/db.json')
     
 var noteId = 0;
 
-//API routes
+// Pull from db.json
 router.get('/notes', function (req, res) {
     return res.json(notes);
 })
 
+// Adding notes with unique ID
 router.post('/notes', function (req, res) {
     
     noteId = noteId + 1;
@@ -27,6 +27,7 @@ router.post('/notes', function (req, res) {
     return console.log('Added new note: ' + newNote.title)
 });
 
+// Deleting notes 
 router.delete('/notes/:id', function (req, res) {
     const { id } = req.params;
 

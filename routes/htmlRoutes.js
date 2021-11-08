@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const fs = require('fs');
 const path = require('path');
-const notes = require('../db/db.json')
 
+// Display notes.html
 router.get('/notes', function (req, res) {
     res.sendFile(path.join(__dirname, '../public/notes.html'));
 });
 
+// Display index.html
 router.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
