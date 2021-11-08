@@ -39,3 +39,4 @@ Email me with any questions: [mariasori87@gmail.com](mailto:mariasori87@gmail.co
 
 ## Screenshot
 
+![image](https://user-images.githubusercontent.com/88404610/140669671-1e574f97-04cf-4f50-ac42-48f13d274cce.png)
